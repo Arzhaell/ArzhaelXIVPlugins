@@ -13,7 +13,7 @@ One address for all my [Dalamud](https://github.com/goatcorp/Dalamud) plugins fo
    ```
 3. Type `/xlplugins` and install the plugins you want.
 
-Already added the address of one of my plugins? Keep it: Dalamud only updates a plugin from the address it was installed from.
+Already added the address of one of my plugins? It keeps working, nothing to change. If you add this one as well, that plugin is listed twice in `/xlplugins`. To switch to this address: remove the old one, add this one, then uninstall and reinstall the plugin (your settings are kept). Dalamud only updates a plugin from the address it was installed from.
 
 ## Plugins
 

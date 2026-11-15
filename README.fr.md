@@ -13,7 +13,7 @@ Une seule adresse pour tous mes plugins [Dalamud](https://github.com/goatcorp/Da
    ```
 3. Tape `/xlplugins` et installe les plugins que tu veux.
 
-Tu as déjà ajouté l'adresse d'un de mes plugins ? Garde-la : Dalamud ne met à jour un plugin que depuis l'adresse d'où il a été installé.
+Tu as déjà ajouté l'adresse d'un de mes plugins ? Elle marche toujours, rien à changer. Si tu ajoutes aussi celle-ci, ce plugin apparaît deux fois dans `/xlplugins`. Pour passer à cette adresse : retire l'ancienne, ajoute celle-ci, puis désinstalle et réinstalle le plugin (tes réglages sont gardés). Dalamud ne met à jour un plugin que depuis l'adresse d'où il a été installé.
 
 ## Plugins
 
