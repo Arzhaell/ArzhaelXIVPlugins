@@ -1,0 +1,63 @@
+# Reconstruit repo.json (la liste de tous les plugins, lue par Dalamud) à partir du repo.json
+# de chaque dépôt listé dans plugins.txt, puis le publie sur main s'il a changé.
+# Si un des repo.json est introuvable ou invalide, rien n'est publié et le passage échoue :
+# la liste déjà en ligne reste en place.
+name: Update repo.json
+
+on:
+  schedule:
+    - cron: '17 * * * *'   # toutes les heures (GitHub peut retarder un peu le lancement)
+  workflow_dispatch:         # bouton « Run workflow » de l'onglet Actions
+  push:
+    branches: [main]
+    paths:
+      - plugins.txt
+      - build-repo.mjs
+      - .github/workflows/update.yml
+
+permissions:
+  contents: write   # pousser repo.json
+  actions: write    # garder la tâche planifiée active (dernière étape)
+
+# Un seul passage à la fois : deux passages ne poussent jamais en même temps.
+concurrency:
+  group: update-repo
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Réunir les repo.json
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          COMMIT_MESSAGE_FILE: ${{ runner.temp }}/message.txt
+        run: node build-repo.mjs
+
+      # Le commit est signé au nom du mainteneur plutôt que du robot github-actions.
+      - name: Publier s'il y a du changement
+        run: |
+          git add repo.json
+          if git diff --cached --quiet; then
+            echo "Aucun changement."
+            exit 0
+          fi
+          git config user.name 'Arzhael'
+          git config user.email '33180615+Arzhaell@users.noreply.github.com'
+          git commit -F "$RUNNER_TEMP/message.txt"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      # GitHub met en pause les tâches planifiées d'un dépôt public après 60 jours sans activité :
+      # sans cette étape, une longue période sans nouvelle version arrêterait les mises à jour.
+      - name: Garder la tâche planifiée active
+        if: github.event_name != 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/update.yml/enable"

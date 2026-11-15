@@ -1,0 +1,11 @@
+# Dépôts GitHub dont le repo.json (branche main) est repris dans le repo.json commun.
+# Un dépôt par ligne, sous la forme propriétaire/nom. Les lignes vides et ce qui suit un # sont ignorés.
+# L'ordre de ce fichier est celui de repo.json.
+Arzhaell/AutoStanceXIV
+Arzhaell/FlashColor
+Arzhaell/GposeFilterXIV
+Arzhaell/LootFinderXIV
+Arzhaell/OffStreamXIV
+Arzhaell/OutfitPackerXIV
+Arzhaell/RefBoardXIV
+Arzhaell/SimpleHUD
